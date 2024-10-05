@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('interview_infos', function (Blueprint $table) {
             $table->id();
-            $table->integer('application_id');
+            $table->unsignedBigInteger('application_id');
             $table->longText('description');
 
             //foreign key

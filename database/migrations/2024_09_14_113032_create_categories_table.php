@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('employer_id');
+            $table->unsignedBigInteger('employer_id');
             $table->timestamps();
             //foreign key
             $table->foreign('employer_id')->references('id')->on('users')->onDelete('cascade');
