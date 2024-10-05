@@ -20,9 +20,9 @@ class EmployerAuth
 //        dd($user->role);
         if(isset($user)){
             if($user->role === '0'){
-                return redirect('/employer/index');
+                dd('employer');
             }else{
-                return redirect('/');
+                dd('user');
             }
         }
         return $next($request);

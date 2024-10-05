@@ -57,7 +57,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('admin/posts/postdetails/{id}/show_hide',[Admin\PostDetailController::class, 'update'])->name('admin.postdetail.update');
 });
 
-Route::middleware(['auth','employerAuth'])->group(function () {
+Route::middleware(['auth'])->group(function () {
 // Employer
 Route::get('/employer/index', [Employer\ApplicationController::class, 'index'])->name('employer.index');
 Route::resource('/employer/post',Employer\PostController::class);
