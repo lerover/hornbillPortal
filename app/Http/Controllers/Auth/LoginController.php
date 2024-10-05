@@ -16,6 +16,17 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
+    protected function redirectToRole($role)
+    {
+        if ($role == '2') {
+            return redirect('/admin/index');
+        } elseif ($role == '0') {
+            return redirect('/employer/index');
+        } else {
+            return redirect('/newsfeed/home');
+        }
+    }
+
     public function login(Request $request): RedirectResponse
     {
         // Validate credentials
@@ -33,10 +44,11 @@ class LoginController extends Controller
             $request->session()->regenerate();
 
             // Redirect based on user role
-            $user = Auth::user()->id;
-            dd($user);
+            $user = Auth::user();
             return $this->redirectToRole($user->role);
         }
+
+
 
         // Return with error if credentials do not match
         return back()->withErrors([

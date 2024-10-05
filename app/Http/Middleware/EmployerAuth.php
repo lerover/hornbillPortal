@@ -2,13 +2,12 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
 
-class roleFilter
+class EmployerAuth
 {
     /**
      * Handle an incoming request.
@@ -17,14 +16,15 @@ class roleFilter
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $user = User::all()->where('id', Auth::id())->first();
-        if ($user->role == '2') {
-            return redirect('/admin/index');
-        } elseif($user->role == '0') {
-            return redirect('/employer/index');
-        }else{
-            return redirect('/newsfeed/home');
+        $user = Auth::user();
+//        dd($user->role);
+        if(isset($user)){
+            if($user->role === '0'){
+                return redirect('/employer/index');
+            }else{
+                return redirect('/');
+            }
         }
-
+        return $next($request);
     }
 }

@@ -40,7 +40,7 @@ Route::post('newsfeed/profile/{id}/delete',[ProfileController::class,'delete'])-
 Route::get('/search', [\App\Http\Controllers\SearchController::class, 'search'])->name('search');
 Route::get('/newsfeed/home',[\App\Http\Controllers\NewsfeedController::class,'index'])->name('newsfeed.home');
 
-Route::middleware(['auth','roleFilter'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     //Job application
     Route::post('/newsfeed/jobapply/{id}',[\App\Http\Controllers\JobapplyController::class,'store'])->name('newsfeed.store');
 
@@ -55,16 +55,18 @@ Route::middleware(['auth','roleFilter'])->group(function () {
     Route::get('admin/posts',[Admin\PostController::class, 'index'])->name('admin.posts.index');
     Route::get('admin/posts/postdetails/{id}',[Admin\PostDetailController::class, 'index'])->name('admin.postdetail.index');
     Route::post('admin/posts/postdetails/{id}/show_hide',[Admin\PostDetailController::class, 'update'])->name('admin.postdetail.update');
+});
 
-    // Employer
-    Route::get('/employer/index', [Employer\ApplicationController::class, 'index'])->name('employer.index');
-    Route::resource('/employer/post',Employer\PostController::class);
-    Route::post('/employer/post/search', [Employer\SearchController::class, 'search'])->name('employer.post.search');
-    Route::resource('/employer/category', Employer\CategoryController::class);
-    Route::get('/employer/application', [Employer\ApplicationController::class, 'index'])->name('employer.application.index');
-    Route::post('/employer/application/reply/{application}', [Employer\ApplicationController::class, 'update'])->name('employer.application.update');
-    Route::delete('/employer/application/{application}/delete',[Employer\ApplicationController::class, 'destroy'])->name('employer.application.destroy');
-    Route::get('employer/payment',[Employer\PaymentController::class,'index'])->name('employer.payment.index');
-    Route::post('employer/payment',[Employer\PaymentController::class,'store'])->name('employer.payment.store');
-    Route::post('employer/interviewinfo/{applicationId}',[Employer\InterviewInfoController::class,'store'])->name('employer.interviewinfo.store');
+Route::middleware(['auth','employerAuth'])->group(function () {
+// Employer
+Route::get('/employer/index', [Employer\ApplicationController::class, 'index'])->name('employer.index');
+Route::resource('/employer/post',Employer\PostController::class);
+Route::post('/employer/post/search', [Employer\SearchController::class, 'search'])->name('employer.post.search');
+Route::resource('/employer/category', Employer\CategoryController::class);
+Route::get('/employer/application', [Employer\ApplicationController::class, 'index'])->name('employer.application.index');
+Route::post('/employer/application/reply/{application}', [Employer\ApplicationController::class, 'update'])->name('employer.application.update');
+Route::delete('/employer/application/{application}/delete',[Employer\ApplicationController::class, 'destroy'])->name('employer.application.destroy');
+Route::get('employer/payment',[Employer\PaymentController::class,'index'])->name('employer.payment.index');
+Route::post('employer/payment',[Employer\PaymentController::class,'store'])->name('employer.payment.store');
+Route::post('employer/interviewinfo/{applicationId}',[Employer\InterviewInfoController::class,'store'])->name('employer.interviewinfo.store');
 });
