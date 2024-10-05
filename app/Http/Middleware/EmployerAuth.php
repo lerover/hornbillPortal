@@ -20,11 +20,9 @@ class EmployerAuth
 //        dd($user->role);
         if(isset($user)){
             if($user->role === '0'){
-                dd('employer');
-            }else{
-                dd('user');
+                return $next($request);
             }
         }
-        return $next($request);
+        return redirect('/');
     }
 }

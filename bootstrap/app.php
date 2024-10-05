@@ -13,8 +13,13 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias(['employerAuth'=>\App\Http\Middleware\EmployerAuth::class]);
-//        $middleware->use(['authenticateCheck'=>\App\Http\Middleware\Logincheck::class]);
+    })
+    ->withMiddleware(function (Middleware $middleware) {
+        $middleware->alias(['adminAuth'=>\App\Http\Middleware\AdminAuth::class]);
+    })
+    ->withMiddleware(function (Middleware $middleware) {
+        $middleware->alias(['paymentCheck'=>\App\Http\Middleware\PaymentCheck::class]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+
     })->create();

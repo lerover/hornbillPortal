@@ -4,11 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Payment;
+use Symfony\Component\HttpFoundation\Response;
 
-class PaymentCheck
+class AdminAuth
 {
     /**
      * Handle an incoming request.
@@ -18,15 +17,12 @@ class PaymentCheck
     public function handle(Request $request, Closure $next): Response
     {
         $user = Auth::user();
-        $payment = Payment::where('user_id',$user->id)->get();
-        if($payment->isNotEmpty()) {
-            $paymentcheck = $payment->first();
-            if ($paymentcheck->status == 'approve') {
+//        dd($user->role);
+        if(isset($user)){
+            if($user->role === '2'){
                 return $next($request);
             }
         }
-                return redirect('/employer/index')->with('warning','You have to purchase lifetime plan first to be able to post and create categories');
-
-
+        return redirect('/');
     }
 }
